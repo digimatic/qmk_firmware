@@ -1,20 +1,21 @@
 #include QMK_KEYBOARD_H
 
-#define _US 0   // Base layer: US ANSI
-#define _DV 1   // Base layer: Dvorak ANSI
-#define _SV 2   // Base layer: Swedish
-#define _SVD 3  // Base layer: Svdvorak
+#define _SV 0   // Base layer: Swedish (default)
+#define _SVD 1  // Base layer: Svdvorak
+#define _US 2   // Base layer: US ANSI
+#define _DV 3   // Base layer: Dvorak ANSI
 #define _FL 4   // Function layer
 #define _MAC 5  // Mac layer, switches win and alt
+#define _FK 6   // Function keys (on 1-9, 0 ...)
 
 // investigate later - use lctl / lsft as up/down.
 // https://github.com/qmk/qmk_firmware/tree/master/keyboards/tada68/keymaps/fakb
 #define LCTL_MA LCTL_T(KC_UP)
 #define LSFT_MA LSFT_T(KC_DOWN)
 
-#define aa UC(0xC4)
-#define ae UC(0xC5)
-#define oe UC(0xD6)
+//#define aa UC(0xC4)
+//#define ae UC(0xC5)
+//#define oe UC(0xD6)
 
 /*const uint32_t PROGMEM unicode_map[] = {
   [aa] = 0xC4,
@@ -91,9 +92,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * ,----------------------------------------------------------------.
    * |`swp|F1 |F2 |F3 |F4 |F5 |F6 |F7 |F8 |F9 |F10|F11|F12|  Del |`swp|
    * |----------------------------------------------------------------|
-   * |     |BL |BL-|BL+|Brt|   |   |   |mac|Pau|PSc|BL-|BL+|BL   |Ins |
+   * |Fkeys|BL |BL-|BL+|Brt|   |   |   |mac|Pau|PSc|BL-|BL+|BL   |Ins |
    * |----------------------------------------------------------------|
-   * |      |us |sv |   |   |   |<- |Dn |Up | ->|   |Brt|        |Hme |
+   * |CAPS  |us |sv |   |   |   |<- |Dn |Up | ->|   |Brt|        |Hme |
    * |----------------------------------------------------------------|
    * |        |dv |svd|   |   |   |   |V- |V+ |MUT|   |      |PUp|End |
    * |----------------------------------------------------------------|
@@ -102,8 +103,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    */
 [_FL] = LAYOUT_ansi(
   MAGIC_UNSWAP_GRAVE_ESC, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,    KC_F10,  KC_F11,  KC_F12, KC_DEL,   MAGIC_SWAP_GRAVE_ESC, \
-  _______,  aa,     _______, _______, _______, _______, _______, _______, TG(_MAC),KC_PAUSE, KC_PSCR, BL_DEC, BL_INC , BL_TOGG,  KC_INS,  \
-  oe,      DF(_US), DF(_SV), _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, BL_BRTG,     _______,      KC_HOME, \
+  TG(_FK), _______, _______, _______, _______, _______, _______, _______, TG(_MAC),KC_PAUSE, KC_PSCR, BL_DEC, BL_INC , BL_TOGG,  KC_INS,  \
+  KC_CAPS, DF(_US), DF(_SV), _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, BL_BRTG,     _______,      KC_HOME, \
   _______, DF(_DV), DF(_SVD),_______, _______, _______, _______, KC_VOLD, KC_VOLU, KC_MUTE,  _______, _______,     KC_PGUP,      KC_END , \
   _______, _______, _______,                 _______,                     _______, _______,  _______, KC_HOME,     KC_PGDN,      KC_END ),
 
@@ -127,10 +128,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
   KC_LCTL, KC_LALT, KC_LGUI,                        _______,                       KC_RGUI, _______, KC_RALT, _______, _______, _______),
 
+[_FK] = LAYOUT_ansi(
+  _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,    KC_F10,  KC_F11,  KC_F12, _______, _______, \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,      _______,     _______, \
+  _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+  _______, _______, _______,                        _______,                       _______, _______, _______, _______, _______, _______),
+
 };
 
 
 // Set unicode in Mac OS.
-void eeconfig_init_user(void) {
-  set_unicode_input_mode(UC_OSX);
-};
+//void eeconfig_init_user(void) {
+//  set_unicode_input_mode(UC_OSX);
+//};
