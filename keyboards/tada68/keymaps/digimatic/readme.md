@@ -2,6 +2,7 @@
 
  * make tada68:digimatic:flashbin
  * cp FLASH.BIN /Volumes/TADA68\ \ /FLASH.BIN
+ * Press Escape
 
 [tshack's layout](https://github.com/qmk/qmk_firmware/tree/master/keyboards/tada68/keymaps/tshack), with:
  + Mac layer
@@ -44,13 +45,13 @@ Note: Shift + Esc = ~ (tilde)
 
  Fn Layer
 ,----------------------------------------------------------------.
-|   |F1 |F2 |F3 |F4 |F5 |F6 |F7 |F8 |F9 |F10|F11|F12|  Del  |    |
+|Brk|F1 |F2 |F3 |F4 |F5 |F6 |F7 |F8 |F9 |F10|F11|F12|  Del  |~ ` |
 |----------------------------------------------------------------|
-|     |BL |BL-|BL+|Brt|   |   |   |mac|   |PSc|   |   |     |Ins |
+|     |BL |BL-|BL+|Brt|   |   |   |mac|Brk|PSc|   |   |     |Ins |
 |----------------------------------------------------------------|
 |      |   |   |   |   |   |<- |Dn |Up | ->|   |   |        |Hme |
 |----------------------------------------------------------------|
-|        |   |   |   |   |   |   |MUT|V- |V+ |   |      |PUp|End |
+|        |   |   |   |   |   |Br-|Br+|V- |V+ |MUT|      |PUp|End |
 |----------------------------------------------------------------|
 |    |    |    |                       |   |   |    |Hme|PDn|End |
 `----------------------------------------------------------------'
