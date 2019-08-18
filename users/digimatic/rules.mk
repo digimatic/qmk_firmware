@@ -1,0 +1,1 @@
+SRC += digimatic.c

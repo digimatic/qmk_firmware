@@ -15,6 +15,8 @@
  */
 #include QMK_KEYBOARD_H
 
+#include "digimatic.h"
+
 #define _____ KC_TRNS
 #define XXXXX KC_NO
 #define _L0 0

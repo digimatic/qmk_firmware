@@ -1,5 +1,6 @@
 # digimatic layout
 
+ * Press button underneath (while connected)
  * make tada68:digimatic:flashbin
  * cp FLASH.BIN /Volumes/TADA68\ \ /FLASH.BIN
  * Press Escape
