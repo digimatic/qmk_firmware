@@ -67,8 +67,17 @@ void lp_finished(qk_tap_dance_state_t *state, void *user_data) {
             register_code(KC_LSFT);
             break;
         case DOUBLE_TAP:
-            register_code(KC_RALT);
-            register_code(KC_7);
+            if(isMac())
+            {
+                register_code(KC_RALT);
+                register_code(KC_RSFT);
+                register_code(KC_8);
+
+            } else
+            {
+                register_code(KC_RALT);
+                register_code(KC_7);
+            }
             break;
         case DOUBLE_HOLD:
             register_code(KC_LSFT);
@@ -90,8 +99,16 @@ void lp_reset(qk_tap_dance_state_t *state, void *user_data) {
             unregister_code(KC_LSFT);
             break;
         case DOUBLE_TAP:
-            unregister_code(KC_RALT);
-            unregister_code(KC_7);
+            if(isMac())
+            {
+                unregister_code(KC_8);
+                unregister_code(KC_RSFT);
+                unregister_code(KC_RALT);
+            } else
+            {
+                unregister_code(KC_7);
+                unregister_code(KC_RALT);
+            }
             break;
         case DOUBLE_HOLD:
             unregister_code(KC_LSFT);
@@ -114,8 +131,16 @@ void rp_finished(qk_tap_dance_state_t *state, void *user_data) {
             register_code(KC_RSFT);
             break;
         case DOUBLE_TAP:
-            register_code(KC_RALT);
-            register_code(KC_0);
+            if(isMac())
+            {
+                register_code(KC_RALT);
+                register_code(KC_RSFT);
+                register_code(KC_9);
+            } else
+            {
+                register_code(KC_RALT);
+                register_code(KC_0);
+            }
             break;
         case DOUBLE_HOLD:
             register_code(KC_RSFT);
@@ -137,8 +162,16 @@ void rp_reset(qk_tap_dance_state_t *state, void *user_data) {
             unregister_code(KC_RSFT);
             break;
         case DOUBLE_TAP:
-            unregister_code(KC_RALT);
-            unregister_code(KC_0);
+            if(isMac())
+            {
+                unregister_code(KC_9);
+                unregister_code(KC_RSFT);
+                unregister_code(KC_RALT);
+            } else
+            {
+                unregister_code(KC_0);
+                unregister_code(KC_RALT);
+            }
             break;
         case DOUBLE_HOLD:
             unregister_code(KC_RSFT);
@@ -150,9 +183,73 @@ void rp_reset(qk_tap_dance_state_t *state, void *user_data) {
     xtap_state.state = 0;
 }
 
+
+
+void lp2_finished(qk_tap_dance_state_t *state, void *user_data) {
+    xtap_state.state = cur_dance(state);
+    switch (xtap_state.state) {
+        case SINGLE_TAP:
+            register_code(KC_NUHS);
+            break;
+        case SINGLE_HOLD:
+            register_code(KC_LSFT);
+            break;
+        default:
+            break;
+    }
+}
+
+void lp2_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (xtap_state.state) {
+        case SINGLE_TAP:
+            unregister_code(KC_NUHS);
+            break;
+        case SINGLE_HOLD:
+            unregister_code(KC_LSFT);
+            break;
+        default:
+            break;
+    }
+    xtap_state.state = 0;
+}
+
+void rp2_finished(qk_tap_dance_state_t *state, void *user_data) {
+    xtap_state.state = cur_dance(state);
+    switch (xtap_state.state) {
+        case SINGLE_TAP:
+            register_code(KC_LSFT);
+            register_code(KC_NUHS);
+            break;
+        case SINGLE_HOLD:
+            register_code(KC_RSFT);
+            break;
+        default:
+            break;
+    }
+}
+
+void rp2_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (xtap_state.state) {
+        case SINGLE_TAP:
+            unregister_code(KC_NUHS);
+            unregister_code(KC_LSFT);
+            break;
+        case SINGLE_HOLD:
+            unregister_code(KC_RSFT);
+            break;
+        default:
+            break;
+    }
+    xtap_state.state = 0;
+    xtap_state.state = 0;
+}
+
 // clang-format off
 qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_ESC] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_GRV),
     [TD_SHIFT_LP] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lp_finished, lp_reset),
-    [TD_SHIFT_RP] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, rp_finished, rp_reset)};
+    [TD_SHIFT_RP] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, rp_finished, rp_reset),
+    [TD_SHIFT_LPIPE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lp2_finished, lp2_reset),
+    [TD_SHIFT_RPIPE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, rp2_finished, rp2_reset)
+};
 // clang-format on

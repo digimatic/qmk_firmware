@@ -103,10 +103,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * `----------------------------------------------------------------'
    */
 [_FL] = LAYOUT_ansi(
-  KC_PAUS,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,    KC_F10,  KC_F11,  KC_F12, KC_DEL, KC_GRV,  \
-  TG(_FK), _______, _______, _______, _______, _______, _______, _______, TG(_MAC),KC_PAUSE, KC_PSCR, BL_DEC, BL_INC , BL_TOGG,  KC_INS,  \
-  KC_CAPS, DF(_US), DF(_SV), _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, BL_BRTG,     _______,      KC_HOME, \
-  _______, DF(_DV), DF(_SVD),_______, _______, _______, KC_SLCK, KC_PAUS, KC_VOLD, KC_VOLU, KC_MUTE,  _______,         TOP,      KC_END , \
+  KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,    KC_F10,   KC_F11,  KC_F12, KC_DEL,  KC_GRV,  \
+  TG(_FK), KC_BTN1, KC_BTN2, KC_BTN3, _______, _______, _______, _______, TG(_MAC),BL_STEP,  BL_BRTG,  BL_DEC, BL_INC , BL_TOGG, KC_INS,  \
+  KC_CAPS, DF(_US), DF(_SV), _______, _______, _______, _______, _______, KC_MPLY, KC_MSTP, KC_MPRV,  KC_MNXT,      _______,     KC_HOME, \
+SHIFT_LP2, DF(_DV), DF(_SVD),_______, _______, _______, KC_SLCK, KC_PAUS, KC_VOLD, KC_VOLU, KC_MUTE,SHIFT_RP2,         TOP,      KC_END , \
   _______, _______, _______,                 _______,                     _______, _______,  _______, KC_HOME,      BOTTOM,      KC_END ),
 
   /* Keymap _MAC: Mac Layer
@@ -143,3 +143,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //void eeconfig_init_user(void) {
 //  set_unicode_input_mode(UC_OSX);
 //};
+
+bool isMac(void)
+{
+  return layer_state_is(_MAC);
+}
