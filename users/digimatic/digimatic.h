@@ -1,6 +1,7 @@
 #pragma once
 
 #include QMK_KEYBOARD_H
+#include <keymap_swedish.h>
 
 // Tap Dance Declarations
 enum {
@@ -11,7 +12,7 @@ enum {
     TD_SHIFT_RPIPE,
 };
 
-#define FL_NUBS LT(_FL, KC_NUBS)  // Hold:Function-layer Tap:Oo
+#define FL_NUBS LT(_FL, KC_NUBS)  // Hold:Function-layer Tap:Oo (< key)
 #define SVD_OE LT(_FL, KC_SCLN)
 #define PW_PIPE RALT(KC_NUBS)
 #define SHIFT_LP TD(TD_SHIFT_LP)  // Hold:L-Shift  Tap:(  Double-tap:{  Triple-tap:[
