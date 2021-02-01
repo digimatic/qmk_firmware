@@ -1,5 +1,100 @@
 #include "digimatic.h"
 
+void register_unreg_code(uint64_t keycode, bool press) {
+    if (press)
+        register_code(keycode);
+    else
+        unregister_code(keycode);
+}
+
+bool process_digimatic_keycode(uint16_t keycode, bool pressed) {
+    bool handled = false;
+    switch (keycode) {
+        case PW_LPAR:  // (
+            register_unreg_code(KC_LSFT, pressed);
+            register_unreg_code(KC_8, pressed);
+            handled = true;
+            break;
+        case PW_RPAR:  // )
+            register_unreg_code(KC_RSFT, pressed);
+            register_unreg_code(KC_9, pressed);
+            handled = true;
+            break;
+
+        case PW_LBRA:  // {
+            if (isMac()) {
+                register_unreg_code(KC_RALT, pressed);
+                register_unreg_code(KC_RSFT, pressed);
+                register_unreg_code(KC_8, pressed);
+            } else {
+                register_unreg_code(KC_RALT, pressed);
+                register_unreg_code(KC_7, pressed);
+            }
+            handled = true;
+            break;
+        case PW_RBRA:  // }
+            if (isMac()) {
+                register_unreg_code(KC_RALT, pressed);
+                register_unreg_code(KC_RSFT, pressed);
+                register_unreg_code(KC_9, pressed);
+            } else {
+                register_unreg_code(KC_RALT, pressed);
+                register_unreg_code(KC_0, pressed);
+            }
+            handled = true;
+            break;
+
+        case PW_LSQ:  // [
+            register_unreg_code(KC_RALT, pressed);
+            register_unreg_code(KC_8, pressed);
+            handled = true;
+            break;
+        case PW_RSQ:  // ]
+            register_unreg_code(KC_RALT, pressed);
+            register_unreg_code(KC_9, pressed);
+            handled = true;
+            break;
+
+        case PW_LT:  // <
+            if (!isSvdvorak())
+                register_unreg_code(SE_QUOT, pressed);
+            else
+                register_unreg_code(SE_LABK, pressed);
+            handled = true;
+            break;
+        case PW_GT:  // >
+            register_unreg_code(KC_LSHIFT, pressed);
+            if (!isSvdvorak()) {
+                register_unreg_code(SE_QUOT, pressed);
+            } else {
+                register_unreg_code(SE_LABK, pressed);
+            }
+            handled = true;
+            break;
+
+        case PW_PIPE:  // |
+            if (isMac()) {
+                register_unreg_code(KC_RALT, pressed);
+                register_unreg_code(KC_7, pressed);
+            } else {
+                if (isSvdvorak())
+                    register_unreg_code(SE_QUOT, pressed);
+                else {
+                    register_unreg_code(KC_RALT, pressed);
+                    register_unreg_code(SE_LABK, pressed);
+                }
+            }
+            handled = true;
+            break;
+
+        default:
+            break;
+    }
+
+    return handled;
+}
+
+#ifdef TAP_DANCE_ENABLE
 typedef struct {
     bool is_press_action;
     int  state;
@@ -60,31 +155,19 @@ void lp_finished(qk_tap_dance_state_t *state, void *user_data) {
     xtap_state.state = cur_dance(state);
     switch (xtap_state.state) {
         case SINGLE_TAP:
-            register_code(KC_LSFT);
-            register_code(KC_8);
+            process_digimatic_keycode(PW_LPAR, true);
             break;
         case SINGLE_HOLD:
             register_code(KC_LSFT);
             break;
         case DOUBLE_TAP:
-            if(isMac())
-            {
-                register_code(KC_RALT);
-                register_code(KC_RSFT);
-                register_code(KC_8);
-
-            } else
-            {
-                register_code(KC_RALT);
-                register_code(KC_7);
-            }
+            process_digimatic_keycode(PW_LBRA, true);
             break;
         case DOUBLE_HOLD:
             register_code(KC_LSFT);
             break;
         case TRIPLE_TAP:
-            register_code(KC_RALT);
-            register_code(KC_8);
+            process_digimatic_keycode(PW_LSQ, true);
             break;
     }
 }
@@ -92,29 +175,18 @@ void lp_finished(qk_tap_dance_state_t *state, void *user_data) {
 void lp_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (xtap_state.state) {
         case SINGLE_TAP:
-            unregister_code(KC_8);
-            unregister_code(KC_LSFT);
+            process_digimatic_keycode(PW_LPAR, false);
             break;
         case SINGLE_HOLD:
             unregister_code(KC_LSFT);
             break;
         case DOUBLE_TAP:
-            if(isMac())
-            {
-                unregister_code(KC_8);
-                unregister_code(KC_RSFT);
-                unregister_code(KC_RALT);
-            } else
-            {
-                unregister_code(KC_7);
-                unregister_code(KC_RALT);
-            }
+            process_digimatic_keycode(PW_LBRA, false);
             break;
         case DOUBLE_HOLD:
             unregister_code(KC_LSFT);
         case TRIPLE_TAP:
-            unregister_code(KC_8);
-            unregister_code(KC_RALT);
+            process_digimatic_keycode(PW_LSQ, false);
             break;
     }
     xtap_state.state = 0;
@@ -124,30 +196,19 @@ void rp_finished(qk_tap_dance_state_t *state, void *user_data) {
     xtap_state.state = cur_dance(state);
     switch (xtap_state.state) {
         case SINGLE_TAP:
-            register_code(KC_RSFT);
-            register_code(KC_9);
+            process_digimatic_keycode(PW_RPAR, true);
             break;
         case SINGLE_HOLD:
             register_code(KC_RSFT);
             break;
         case DOUBLE_TAP:
-            if(isMac())
-            {
-                register_code(KC_RALT);
-                register_code(KC_RSFT);
-                register_code(KC_9);
-            } else
-            {
-                register_code(KC_RALT);
-                register_code(KC_0);
-            }
+            process_digimatic_keycode(PW_RBRA, true);
             break;
         case DOUBLE_HOLD:
             register_code(KC_RSFT);
             break;
         case TRIPLE_TAP:
-            register_code(KC_RALT);
-            register_code(KC_9);
+            process_digimatic_keycode(PW_RSQ, true);
             break;
     }
 }
@@ -155,41 +216,28 @@ void rp_finished(qk_tap_dance_state_t *state, void *user_data) {
 void rp_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (xtap_state.state) {
         case SINGLE_TAP:
-            unregister_code(KC_9);
-            unregister_code(KC_RSFT);
+            process_digimatic_keycode(PW_RPAR, false);
             break;
         case SINGLE_HOLD:
             unregister_code(KC_RSFT);
             break;
         case DOUBLE_TAP:
-            if(isMac())
-            {
-                unregister_code(KC_9);
-                unregister_code(KC_RSFT);
-                unregister_code(KC_RALT);
-            } else
-            {
-                unregister_code(KC_0);
-                unregister_code(KC_RALT);
-            }
+            process_digimatic_keycode(PW_RBRA, false);
             break;
         case DOUBLE_HOLD:
             unregister_code(KC_RSFT);
         case TRIPLE_TAP:
-            unregister_code(KC_9);
-            unregister_code(KC_RALT);
+            process_digimatic_keycode(PW_RSQ, false);
             break;
     }
     xtap_state.state = 0;
 }
 
-
-
 void lp2_finished(qk_tap_dance_state_t *state, void *user_data) {
     xtap_state.state = cur_dance(state);
     switch (xtap_state.state) {
         case SINGLE_TAP:
-            register_code(KC_NUHS);
+            process_digimatic_keycode(PW_LT, true);
             break;
         case SINGLE_HOLD:
             register_code(KC_LSFT);
@@ -202,7 +250,7 @@ void lp2_finished(qk_tap_dance_state_t *state, void *user_data) {
 void lp2_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (xtap_state.state) {
         case SINGLE_TAP:
-            unregister_code(KC_NUHS);
+            process_digimatic_keycode(PW_LT, false);
             break;
         case SINGLE_HOLD:
             unregister_code(KC_LSFT);
@@ -217,8 +265,7 @@ void rp2_finished(qk_tap_dance_state_t *state, void *user_data) {
     xtap_state.state = cur_dance(state);
     switch (xtap_state.state) {
         case SINGLE_TAP:
-            register_code(KC_LSFT);
-            register_code(KC_NUHS);
+            process_digimatic_keycode(PW_GT, true);
             break;
         case SINGLE_HOLD:
             register_code(KC_RSFT);
@@ -231,8 +278,7 @@ void rp2_finished(qk_tap_dance_state_t *state, void *user_data) {
 void rp2_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (xtap_state.state) {
         case SINGLE_TAP:
-            unregister_code(KC_NUHS);
-            unregister_code(KC_LSFT);
+            process_digimatic_keycode(PW_GT, false);
             break;
         case SINGLE_HOLD:
             unregister_code(KC_RSFT);
@@ -253,3 +299,4 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_SHIFT_RPIPE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, rp2_finished, rp2_reset)
 };
 // clang-format on
+#endif
