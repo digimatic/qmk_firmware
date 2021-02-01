@@ -16,11 +16,13 @@ extern uint8_t is_master;
 
 enum layer_number {
     _SV = 0,
+    _SVD,
     _MAC,
     _LOWER,
     _FL = _LOWER,  // 1 Lower
     _RAISE,        // 2
-    _ADJUST,       // 3
+    _RAISESVD,     // 3
+    _ADJUST,       // 4
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -37,8 +39,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|  Del  |    |BackSP |------+------+------+------+------+------|
  * |LShift|   Z  |   X  |   C  |   V  |   B  |-------|    |-------|   N  |   M  |   ,  |   .  |   -  |RShift|
  * `-----------------------------------------/       /     \      \-----------------------------------------'
- *                   | LCtl | LGUI | LAlt | /Space/ /       \Enter \  | RAlt |RAISE | RCtl |
- *                   |      |      |      |/ LOWER /         \      \ |      |      |      |
+ *                   | LCtl | LGUI | LAlt | /Space/ /       \Enter/\  | RAlt |RAISE | RCtl |
+ *                   |      |      |      |/ LOWER /         \LOWER \ |      |      |      |
  *                   `----------------------------'           '------''--------------------'
  */
 
@@ -46,8 +48,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  ESC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                     KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    SE_PLUS, \
  KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    SE_ARNG, \
  FL_NUBS,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     KC_H,    KC_J,    KC_K,    KC_L,    SE_ODIA, SE_ADIA, \
- KC_LSFT,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B, KC_DEL,   KC_BSPC,  KC_N,    KC_M,    KC_COMM, KC_DOT,  SE_MINS, KC_RSFT, \
-                        KC_LCTL, KC_LGUI, KC_LALT, FL_SPACE,           KC_ENT,   KC_RALT,MO(_RAISE),KC_RCTL \
+ SHIFT_LP, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B, KC_DEL,   KC_BSPC,  KC_N,    KC_M,    KC_COMM, KC_DOT,  SE_MINS, SHIFT_RP, \
+                        KC_LCTL, KC_LGUI, KC_LALT, FL_SPACE,           FL_ENT,   KC_RALT,MO(_RAISE),KC_RCTL \
+),
+
+ [_SVD] = LAYOUT( \
+ _______,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                     KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    SE_PLUS, \
+ _______,  SE_ARNG, KC_COMM, KC_DOT,  KC_P,    KC_Y,                     KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    SE_QUOT, \
+ SVD_OE ,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,                     KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    SE_MINS, \
+ _______,  SE_ADIA, KC_Q,    KC_J,    KC_K,    KC_X, KC_DEL,   KC_BSPC,  KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    _______, \
+                        _______, _______, _______, FL_SPACE,           FL_ENT,   _______,MO(_RAISESVD),_______ \
 ),
 
  [_MAC] = LAYOUT( \
@@ -76,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   SE_SECT, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  \
   _______, _______, _______, _______, _______, _______,                   KC_INS,  KC_PGUP, KC_UP,   KC_END,  _______, KC_F12,  \
   _______, _______, _______, _______, _______, _______,                   KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT, KC_END , _______, \
-  _______, _______, _______, _______, _______, _______, _______, KC_DEL,  KC_DEL,  KC_PGDN, _______, _______, _______, _______, \
+SHIFT_LP2, _______, _______, _______, _______, _______, _______, KC_DEL,  KC_DEL,  KC_PGDN, _______, _______, _______,SHIFT_RP2,\
                         _______, _______, _______, _______,          _______,  _______, _______, _______\
 ),
 /* RAISE
@@ -85,9 +95,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
  * |      |   1  |   2  |   3  |   4  |   5  |                    |   6  |   7  |   8  |   9  |   0  |   ¨  |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |-------.    ,-------|      |      |      |      |  Up  |   '  |
+ * |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |-------.    ,-------|      |      |      |      |      |   '  |
  * |------+------+------+------+------+------|       |    |ADJUST |------+------+------+------+------+------|
- * |  F7  |  F8  |  F9  | F10  | F11  | F12  |-------|    |-------|      |      |      | Left | Down |Right |
+ * |  F7  |  F8  |  F9  | F10  | F11  | F12  |-------|    |-------|      |      |      |      |      |      |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
  *                   |      |      |      | /       /       \      \  |      |      |      |
  *                   |      |      |      |/       /         \      \ |      |      |      |
@@ -97,14 +107,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_RAISE] = LAYOUT( \
   _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, SE_ACUT, \
   _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    SE_DIAE, \
-  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                     _______, _______, _______, _______, KC_UP,   SE_QUOT, \
-  KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,_______,TG(_ADJUST),_______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, \
+  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                     _______, _______, _______, _______, _______, SE_QUOT, \
+  KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,_______,TG(_ADJUST),_______, _______, _______, _______, _______, _______, \
                         _______, _______, _______, _______,          _______,  _______, _______, _______\
 ),
 
+[_RAISESVD] = LAYOUT( \
+  _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, SE_ACUT, \
+  _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    SE_DIAE, \
+  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                     _______, _______, _______, _______, _______, SE_LABK, \
+  KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,_______,TG(_ADJUST),_______, _______, _______, _______, _______, _______, \
+                        _______, _______, _______, _______,          _______,  _______, _______, _______\
+),
 /* ADJUST
  * ,-----------------------------------------.                    ,-----------------------------------------.
- * |      |      |      |      |      |      |                    | VOL+ |  7   |   8  |   9  |RGB ON| HUE+ |
+ * |      |SV/SVD|      |      |      |      |                    | VOL+ |  7   |   8  |   9  |RGB ON| HUE+ |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
  * |      |      |      |      |      |      |                    | MUTE |  4   |   5  |   6  | MODE | HUE- |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
@@ -117,23 +134,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                   `----------------------------'           '------''--------------------'
  */
   [_ADJUST] = LAYOUT(
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_VOLU,  KC_7  ,  KC_8  ,  KC_9  , RGB_TOG, RGB_HUI, \
+  XXXXXXX,TG(_SVD), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_VOLU,  KC_7  ,  KC_8  ,  KC_9  , RGB_TOG, RGB_HUI, \
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_MUTE,  KC_4  ,  KC_5  ,  KC_6  , RGB_MOD, RGB_HUD, \
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_VOLD,  KC_1  ,  KC_2  ,  KC_3  , RGB_SAI, RGB_VAI, \
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,TG(_MAC),TG(_ADJUST),XXXXXXX, KC_0 ,  KC_0  , KC_DOT, RGB_SAD, RGB_VAD,\
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,TG(_MAC),TG(_ADJUST),XXXXXXX, KC_0 ,  KC_0  ,  KC_DOT, RGB_SAD, RGB_VAD,\
                         _______, _______, _______, _______,          _______,  _______, _______, _______\
   )
 };
 // clang-format on
-
-// Setting ADJUST layer RGB back to default
-void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) {
-    if (IS_LAYER_ON(layer1) && IS_LAYER_ON(layer2)) {
-        layer_on(layer3);
-    } else {
-        layer_off(layer3);
-    }
-}
 
 // SSD1306 OLED update loop, make sure to enable OLED_DRIVER_ENABLE=yes in rules.mk
 #ifdef OLED_DRIVER_ENABLE
@@ -191,12 +199,18 @@ const char *read_layer_state(void) {
         set_layer_state_str("Layer: Lower");
     } else if (layer_state_is(_RAISE)) {
         set_layer_state_str("Layer: Raise");
+    } else if (layer_state_is(_RAISESVD)) {
+        set_layer_state_str("Layer: Raise (SVD)");
     } else if (layer_state_is(_ADJUST)) {
         set_layer_state_str("Layer: Adjust");
+    } else if (layer_state_is(_MAC) && layer_state_is(_SVD)) {
+        set_layer_state_str("Layer: Svdorak (Mac)");
     } else if (layer_state_is(_MAC)) {
         set_layer_state_str("Layer: Default (Mac)");
     } else if (layer_state_is(_SV)) {
         set_layer_state_str("Layer: Default (Win)");
+    } else if (layer_state_is(_SVD)) {
+        set_layer_state_str("Layer: Svdvorak (Win)");
     } else {
         snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Undef-%ld", layer_state);
     }

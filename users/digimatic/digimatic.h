@@ -23,5 +23,6 @@ enum {
 #define ESC_GRV TD(TD_ESC)
 #define SHIFT_LP2 TD(TD_SHIFT_LPIPE)
 #define SHIFT_RP2 TD(TD_SHIFT_RPIPE)
+#define FL_ENT LT(_FL, KC_ENT)
 
 bool isMac(void);
