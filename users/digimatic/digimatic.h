@@ -28,15 +28,21 @@ enum digimatic_keycodes {
     PW_GT,      // >
 
     PW_PIPE
+  //  PW_TILD
 };
 
-#define FL_NUBS LT(_FL, KC_NUBS)  // Hold:Function-layer Tap:Oo (< key)
+#define FL_NUBS LT(_FL, SE_LABK)  // Hold:Function-layer Tap:Oo (< key)
+#define FL_LABK LT(_FL, SE_LABK)  // Hold:Function-layer Tap:Oo (< key)
+#define CTL_LT MT(MOD_LCTL,SE_LABK)
+#define BREAK MT(MOD_LCTL,KC_PAUS)
+
 #define SVD_OE LT(_FL, KC_SCLN)
-#define PW_PIPE RALT(KC_NUBS)
+//#define PW_PIPE RALT(SE_LABK)   // On windows, not mac
 
 #define TOP RCTL(KC_HOME)
 #define BOTTOM RCTL(KC_END)
 #define FL_SPACE LT(_FL,KC_SPC)    // Hold:Funtion-layer Tap:Space
+#define FL_SPC FL_SPACE
 
 #ifdef TAP_DANCE_ENABLE
 #define SHIFT_LP TD(TD_SHIFT_LP)  // Hold:L-Shift  Tap:(  Double-tap:{  Triple-tap:[
@@ -48,6 +54,18 @@ enum digimatic_keycodes {
 #define ESC_GRV KC_ESC
 #endif
 #define FL_ENT LT(_RAISE, KC_ENT)
+
+#define RALT_1 RALT(KC_1)
+#define RALT_2 RALT(KC_2)
+#define RALT_3 RALT(KC_3)
+#define RALT_4 RALT(KC_4)
+#define RALT_5 RALT(KC_5)
+#define RALT_6 RALT(KC_6)
+#define RALT_7 RALT(KC_7)
+#define RALT_8 RALT(KC_8)
+#define RALT_9 RALT(KC_9)
+#define RALT_0 RALT(KC_0)
+#define PW_TILD RALT(SE_DIAE)
 
 bool process_digimatic_keycode(uint16_t keycode, bool pressed);
 

@@ -87,6 +87,19 @@ bool process_digimatic_keycode(uint16_t keycode, bool pressed) {
             handled = true;
             break;
 
+        // case PW_TILD:  // ~
+        //     if (pressed) {
+        //         register_code(KC_RALT);
+        //         register_code(SE_DIAE);
+        //         register_code(KC_SPACE);
+        //     } else {
+        //         unregister_code(KC_SPACE);
+        //         unregister_code(SE_DIAE);
+        //         unregister_code(KC_RALT);
+        //     }
+        //     handled = true;
+        //     break;
+
         default:
             break;
     }
