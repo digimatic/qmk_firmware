@@ -27,7 +27,8 @@ enum digimatic_keycodes {
     PW_LT,      // <
     PW_GT,      // >
 
-    PW_PIPE
+    PW_PIPE,    // /
+    PW_BSLS     // backslash
   //  PW_TILD
 };
 

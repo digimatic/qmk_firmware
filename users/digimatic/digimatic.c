@@ -99,6 +99,28 @@ bool process_digimatic_keycode(uint16_t keycode, bool pressed) {
         //     }
         //     handled = true;
         //     break;
+        case PW_BSLS:
+            if (isMac()) {
+                if (pressed) {
+                    register_code(KC_RALT);
+                    register_code(KC_RSHIFT);
+                    register_code(KC_7);
+                } else {
+                    unregister_code(KC_7);
+                    unregister_code(KC_RSHIFT);
+                    unregister_code(KC_RALT);
+                }
+            } else {
+                if (pressed) {
+                    register_code(KC_RALT);
+                    register_code(SE_PLUS);
+                } else {
+                    unregister_code(KC_RALT);
+                    unregister_code(SE_PLUS);
+                }
+            }
+            handled = true;
+            break;
 
         default:
             break;
