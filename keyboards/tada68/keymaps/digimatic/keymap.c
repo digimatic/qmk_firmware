@@ -148,3 +148,5 @@ bool isMac(void)
 {
   return layer_state_is(_MAC);
 }
+
+bool isSvdvorak(void) { return layer_state_is(_DV); }

@@ -7,7 +7,7 @@ My switches are Kailh Speed Bronze: Clicky | 1.1mm operating | 3.5mm total | 50g
 
 Build hex:
 ```sh
-make kdztech/dz65rgb/v1:digimatic
+make dztech/dz65rgb/v1:digimatic
 ```
 
 Build and flash:
