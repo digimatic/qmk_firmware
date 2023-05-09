@@ -14,9 +14,9 @@
 
 extern uint8_t is_master;
 
-#define RAISE MO(_RAISE)
-#define RAISESV MO(_RAISESVD)
-#define LOWER MO(_LOWER)
+#define RAISE TT(_RAISE)
+#define RAISESV TT(_RAISESVD)
+#define LOWER TT(_LOWER)
 
 #define TG_ADJ TG(_ADJUST)
 
@@ -82,8 +82,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, \
   _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, \
   CTL_LT , _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, \
-  _______, _______, _______, _______, _______, _______, CTL_LT, _______, _______, _______, _______, _______, _______, _______, \
-                        KC_LALT, KC_LGUI, LOWER , _______,           _______,  RAISE , KC_LGUI, KC_RCTL \
+  _______, _______, _______, _______, _______, _______, CTL_LT,  _______, _______, _______, _______, _______, _______, _______, \
+                        KC_LALT, KC_LGUI, LOWER , _______,           _______,_______, KC_LGUI, KC_RCTL \
 ),
 
 /* LOWER
@@ -92,7 +92,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
  * |      |      |BREAK |PnScn |ScLock|Pause |                    | INS  | PgUp |  UP  | PgDn | ^    | F12  |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |      |      |  <   |  [   |  {   |  (   |-------.    ,-------| HOME | LEFT | DOWN | RIGHT| END  |      |
+ * |      |      |      |      |      |      |-------.    ,-------| HOME | LEFT | DOWN | RIGHT| END  |      |
  * |------+------+------+------+------+------|       |    | Del   |------+------+------+------+------+------|
  * |      |      |      |      |      |      |-------|    |-------|      | PgDn |      |      |      |      |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
@@ -106,7 +106,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|-------+-------+-------+-------+-------+-------+                    |-------+-------+-------+-------+-------+-------+
    _______,_______, BREAK ,KC_PSCR,KC_SLCK,KC_PAUS,                      KC_INS,KC_PGUP, KC_UP ,KC_PGDN,_______, KC_F12, \
 //|-------+-------+-------+-------+-------+-------+                    |-------+-------+-------+-------+-------+-------+
-    KC_F1 , KC_F2 , KC_F3 , KC_F4 , KC_F5 , KC_F6 ,                     KC_HOME,KC_LEFT,KC_DOWN,KC_RGHT,KC_END ,_______, \
+   _______,_______,_______,_______,_______,_______,                     KC_HOME,KC_LEFT,KC_DOWN,KC_RGHT,KC_END ,_______, \
 //|-------+-------+-------+-------+-------+-------+-------+    |-------+-------+-------+-------+-------+-------+-------+
    _______,_______,_______,_______,_______,_______,_______,     KC_DEL ,_______,KC_PGDN,_______,_______,_______,_______, \
 //|-------+-------+---+---+---+---+---+---+---+---+---+---+    |---+---+---+---+---+---+---+---+---+---+-------+-------+
@@ -173,9 +173,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_ADJUST] = LAYOUT(
 //|-------+-------+-------+-------+-------+-------+                    |-------+-------+-------+-------+-------+-------+
-  XXXXXXX,TG(_SVD),XXXXXXX,XXXXXXX,XXXXXXX,RGB_M_P,                     KC_VOLU, KC_7  , KC_8  , KC_9  ,RGB_TOG,RGB_HUI, \
+  XXXXXXX,TG(_SVD),TG(_FL),XXXXXXX,XXXXXXX,RGB_M_P,                     KC_VOLU, KC_7  , KC_8  , KC_9  ,RGB_TOG,RGB_HUI, \
 //|-------+-------+-------+-------+-------+-------+                    |-------+-------+-------+-------+-------+-------+
-   XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,RGB_M_B,                     KC_MUTE, KC_4  , KC_5  , KC_6  ,RGB_MOD,RGB_HUD, \
+   TG(_FL),XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,RGB_M_B,                     KC_MUTE, KC_4  , KC_5  , KC_6  ,RGB_MOD,RGB_HUD, \
 //|-------+-------+-------+-------+-------+-------+                    |-------+-------+-------+-------+-------+-------+
    XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,RGB_M_R,                     KC_VOLD, KC_1  , KC_2  , KC_3  ,RGB_SAI,RGB_VAI, \
 //|-------+-------+-------+-------+-------+-------+-------+    |-------+-------+-------+-------+-------+-------+-------+
@@ -222,7 +222,47 @@ void oled_task_user(void) {
 }
 #endif  // OLED_DRIVER_ENABLE
 
+// Setting ADJUST layer RGB back to default
+void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) {
+    if (IS_LAYER_ON(layer1) && IS_LAYER_ON(layer2)) {
+        layer_on(layer3);
+    } else {
+        layer_off(layer3);
+    }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case PW_LOWER:
+            if (record->event.pressed) {
+                layer_on(_LOWER);
+                update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
+            } else {
+                layer_off(_LOWER);
+                update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
+            }
+            return false;
+            break;
+        case PW_RAISE:
+            if (record->event.pressed) {
+                layer_on(_RAISE);
+                update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
+            } else {
+                layer_off(_RAISE);
+                update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
+            }
+            return false;
+            break;
+        case PW_ADJUST:
+            if (record->event.pressed) {
+                layer_on(_ADJUST);
+            } else {
+                layer_off(_ADJUST);
+            }
+            return false;
+            break;
+    }
+
     if (IS_LAYER_ON(_LOWER) && (IS_LAYER_ON(_RAISE) || IS_LAYER_ON(_RAISESVD))) {
         layer_on(_ADJUST);
     } else {
@@ -250,14 +290,14 @@ char layer_state_str[24];
 void set_layer_state_str(const char *str) { snprintf(layer_state_str, sizeof(layer_state_str), str); }
 
 const char *read_layer_state(void) {
-    if (layer_state_is(_LOWER)) {
+    if (layer_state_is(_ADJUST)) {
+        set_layer_state_str("Layer: Adjust");
+    } else if (layer_state_is(_LOWER)) {
         set_layer_state_str("Layer: Lower");
     } else if (layer_state_is(_RAISE)) {
         set_layer_state_str("Layer: Raise");
     } else if (layer_state_is(_RAISESVD)) {
         set_layer_state_str("Layer: Raise (SVD)");
-    } else if (layer_state_is(_ADJUST)) {
-        set_layer_state_str("Layer: Adjust");
     } else if (layer_state_is(_MAC) && layer_state_is(_SVD)) {
         set_layer_state_str("Layer: Svdorak (Mac)");
     } else if (layer_state_is(_MAC)) {

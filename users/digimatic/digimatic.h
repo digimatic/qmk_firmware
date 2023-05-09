@@ -15,6 +15,15 @@ enum {
 enum digimatic_keycodes {
     PW_AT = SAFE_RANGE, // @
 
+    PW_LOWER,
+    PW_LOWR=PW_LOWER,
+
+    PW_RAISE,
+    PW_RAIS=PW_RAISE,
+
+    PW_ADJUST,
+    PW_ADJ=PW_ADJUST,
+
     PW_LPAR,    // (
     PW_RPAR,    // )
 

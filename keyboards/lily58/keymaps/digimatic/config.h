@@ -46,3 +46,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGB_DI_PIN D4
 #define RGBLED_SPLIT { 10, 10 }
 #define RGBLED_NUM 20           // Number of LEDs
+
+#define TAPPING_TOGGLE 3
