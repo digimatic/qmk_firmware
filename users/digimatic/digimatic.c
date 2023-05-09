@@ -63,7 +63,7 @@ bool process_digimatic_keycode(uint16_t keycode, bool pressed) {
             handled = true;
             break;
         case PW_GT:  // >
-            register_unreg_code(KC_LSHIFT, pressed);
+            register_unreg_code(KC_LEFT_SHIFT, pressed);
             if (!isSvdvorak()) {
                 register_unreg_code(SE_QUOT, pressed);
             } else {
@@ -103,11 +103,11 @@ bool process_digimatic_keycode(uint16_t keycode, bool pressed) {
             if (isMac()) {
                 if (pressed) {
                     register_code(KC_RALT);
-                    register_code(KC_RSHIFT);
+                    register_code(KC_RIGHT_SHIFT);
                     register_code(KC_7);
                 } else {
                     unregister_code(KC_7);
-                    unregister_code(KC_RSHIFT);
+                    unregister_code(KC_RIGHT_SHIFT);
                     unregister_code(KC_RALT);
                 }
             } else {

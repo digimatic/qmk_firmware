@@ -58,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|-------+-------+-------+-------+-------+-------+                    |-------+-------+-------+-------+-------+-------+
    CTL_LT , KC_A  , KC_S  , KC_D  , KC_F  , KC_G  ,                      KC_H  , KC_J  , KC_K  , KC_L  ,SE_ODIA,SE_ADIA, \
 //|-------+-------+-------+-------+-------+-------+-------+    |-------+-------+-------+-------+-------+-------+-------+
-   KC_LSFT, KC_Z  , KC_X  , KC_C  , KC_V  , KC_B  ,KC_LGUI,     KC_BSPC, KC_N  , KC_M  ,KC_COMM, KC_DOT,SE_MINS,KC_SFTENT,\
+   KC_LSFT, KC_Z  , KC_X  , KC_C  , KC_V  , KC_B  ,KC_LGUI,     KC_BSPC, KC_N  , KC_M  ,KC_COMM, KC_DOT,SE_MINS,SC_SENT,\
 //|-------+-------+---+---+---+---+---+---+---+---+---+---+    |---+---+---+---+---+---+---+---+---+---+-------+-------+
                        KC_LCTL,KC_LALT, LOWER ,KC_SPC ,             KC_ENT , RAISE , KC_APP,KC_RCTL \
 //                    |-------+-------+-------+-------|            |-------+-------+-------+-------|
@@ -104,7 +104,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|-------+-------+-------+-------+-------+-------+                    |-------+-------+-------+-------+-------+-------+
    SE_SECT, KC_F1 , KC_F2 , KC_F3 , KC_F4 , KC_F5 ,                      KC_F6 , KC_F7 , KC_F8 , KC_F9 ,KC_F10 ,KC_F11 , \
 //|-------+-------+-------+-------+-------+-------+                    |-------+-------+-------+-------+-------+-------+
-   _______,_______, BREAK ,KC_PSCR,KC_SLCK,KC_PAUS,                      KC_INS,KC_PGUP, KC_UP ,KC_PGDN,_______, KC_F12, \
+   _______,_______, BREAK ,KC_PSCR,KC_SCRL,KC_PAUS,                      KC_INS,KC_PGUP, KC_UP ,KC_PGDN,_______, KC_F12, \
 //|-------+-------+-------+-------+-------+-------+                    |-------+-------+-------+-------+-------+-------+
    _______,_______,_______,_______,_______,_______,                     KC_HOME,KC_LEFT,KC_DOWN,KC_RGHT,KC_END ,_______, \
 //|-------+-------+-------+-------+-------+-------+-------+    |-------+-------+-------+-------+-------+-------+-------+
@@ -187,18 +187,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
-// SSD1306 OLED update loop, make sure to enable OLED_DRIVER_ENABLE=yes in rules.mk
-#ifdef OLED_DRIVER_ENABLE
+//SSD1306 OLED update loop, make sure to enable OLED_ENABLE=yes in rules.mk
+#ifdef OLED_ENABLE
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    if (!is_keyboard_master()) return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
-    return rotation;
+  if (!is_keyboard_master())
+    return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
+  return rotation;
 }
 
 // When you add source files to SRC in rules.mk, you can use functions.
 const char *read_layer_state(void);
 const char *read_logo(void);
-void        set_keylog(uint16_t keycode, keyrecord_t *record);
+void set_keylog(uint16_t keycode, keyrecord_t *record);
 const char *read_keylog(void);
 const char *read_keylogs(void);
 
@@ -207,20 +208,22 @@ const char *read_keylogs(void);
 // void set_timelog(void);
 // const char *read_timelog(void);
 
-void oled_task_user(void) {
-    if (is_keyboard_master()) {
-        // If you want to change the display of OLED, you need to change here
-        oled_write_ln(read_layer_state(), false);
-        oled_write_ln(read_keylog(), false);
-        oled_write_ln(read_keylogs(), false);
-        // oled_write_ln(read_mode_icon(keymap_config.swap_lalt_lgui), false);
-        // oled_write_ln(read_host_led_state(), false);
-        // oled_write_ln(read_timelog(), false);
-    } else {
-        oled_write(read_logo(), false);
-    }
+bool oled_task_user(void) {
+  if (is_keyboard_master()) {
+    // If you want to change the display of OLED, you need to change here
+    oled_write_ln(read_layer_state(), false);
+    oled_write_ln(read_keylog(), false);
+    oled_write_ln(read_keylogs(), false);
+    //oled_write_ln(read_mode_icon(keymap_config.swap_lalt_lgui), false);
+    //oled_write_ln(read_host_led_state(), false);
+    //oled_write_ln(read_timelog(), false);
+  } else {
+    oled_write(read_logo(), false);
+  }
+    return false;
 }
-#endif  // OLED_DRIVER_ENABLE
+#endif // OLED_ENABLE
+
 
 // Setting ADJUST layer RGB back to default
 void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) {
@@ -307,7 +310,7 @@ const char *read_layer_state(void) {
     } else if (layer_state_is(_SVD)) {
         set_layer_state_str("Layer: Svdvorak (Win)");
     } else {
-        snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Undef-%ld", layer_state);
+        snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Undef-%d", layer_state);
     }
     return layer_state_str;
 }

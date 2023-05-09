@@ -6,12 +6,12 @@ My switches are Kailh Speed Bronze: Clicky | 1.1mm operating | 3.5mm total | 50g
 
 Build hex:
 ```sh
-make lisy58:digimatic
+make lily58:digimatic
 ```
 
 Build and flash:
 ```sh
-make lisy58:digimatic:dfu
+make lily58:digimatic:dfu
 ```
 
 ## References
