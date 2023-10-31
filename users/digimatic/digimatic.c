@@ -145,13 +145,13 @@ enum {
     TRIPLE_HOLD = 7
 };
 
-int cur_dance(qk_tap_dance_state_t *state);
+int cur_dance(tap_dance_state_t *state);
 
 // for the x tap dance. Put it here so it can be used in any keymap
-void x_finished(qk_tap_dance_state_t *state, void *user_data);
-void x_reset(qk_tap_dance_state_t *state, void *user_data);
+void x_finished(tap_dance_state_t *state, void *user_data);
+void x_reset(tap_dance_state_t *state, void *user_data);
 
-int cur_dance(qk_tap_dance_state_t *state) {
+int cur_dance(tap_dance_state_t *state) {
     if (state->count == 1) {
         if (state->interrupted && state->pressed) return SINGLE_HOLD;
         if (state->interrupted || !state->pressed) return SINGLE_TAP;
@@ -186,7 +186,7 @@ int cur_dance(qk_tap_dance_state_t *state) {
 // instanalize an instance of 'tap' for the 'x' tap dance.
 static tap xtap_state = {.is_press_action = true, .state = 0};
 
-void lp_finished(qk_tap_dance_state_t *state, void *user_data) {
+void lp_finished(tap_dance_state_t *state, void *user_data) {
     xtap_state.state = cur_dance(state);
     switch (xtap_state.state) {
         case SINGLE_TAP:
@@ -207,7 +207,7 @@ void lp_finished(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void lp_reset(qk_tap_dance_state_t *state, void *user_data) {
+void lp_reset(tap_dance_state_t *state, void *user_data) {
     switch (xtap_state.state) {
         case SINGLE_TAP:
             process_digimatic_keycode(PW_LPAR, false);
@@ -227,7 +227,7 @@ void lp_reset(qk_tap_dance_state_t *state, void *user_data) {
     xtap_state.state = 0;
 }
 
-void rp_finished(qk_tap_dance_state_t *state, void *user_data) {
+void rp_finished(tap_dance_state_t *state, void *user_data) {
     xtap_state.state = cur_dance(state);
     switch (xtap_state.state) {
         case SINGLE_TAP:
@@ -248,7 +248,7 @@ void rp_finished(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void rp_reset(qk_tap_dance_state_t *state, void *user_data) {
+void rp_reset(tap_dance_state_t *state, void *user_data) {
     switch (xtap_state.state) {
         case SINGLE_TAP:
             process_digimatic_keycode(PW_RPAR, false);
@@ -268,7 +268,7 @@ void rp_reset(qk_tap_dance_state_t *state, void *user_data) {
     xtap_state.state = 0;
 }
 
-void lp2_finished(qk_tap_dance_state_t *state, void *user_data) {
+void lp2_finished(tap_dance_state_t *state, void *user_data) {
     xtap_state.state = cur_dance(state);
     switch (xtap_state.state) {
         case SINGLE_TAP:
@@ -282,7 +282,7 @@ void lp2_finished(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void lp2_reset(qk_tap_dance_state_t *state, void *user_data) {
+void lp2_reset(tap_dance_state_t *state, void *user_data) {
     switch (xtap_state.state) {
         case SINGLE_TAP:
             process_digimatic_keycode(PW_LT, false);
@@ -296,7 +296,7 @@ void lp2_reset(qk_tap_dance_state_t *state, void *user_data) {
     xtap_state.state = 0;
 }
 
-void rp2_finished(qk_tap_dance_state_t *state, void *user_data) {
+void rp2_finished(tap_dance_state_t *state, void *user_data) {
     xtap_state.state = cur_dance(state);
     switch (xtap_state.state) {
         case SINGLE_TAP:
@@ -310,7 +310,7 @@ void rp2_finished(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void rp2_reset(qk_tap_dance_state_t *state, void *user_data) {
+void rp2_reset(tap_dance_state_t *state, void *user_data) {
     switch (xtap_state.state) {
         case SINGLE_TAP:
             process_digimatic_keycode(PW_GT, false);
@@ -326,7 +326,7 @@ void rp2_reset(qk_tap_dance_state_t *state, void *user_data) {
 }
 
 // clang-format off
-qk_tap_dance_action_t tap_dance_actions[] = {
+tap_dance_action_t tap_dance_actions[] = {
     [TD_ESC] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_GRV),
     [TD_SHIFT_LP] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lp_finished, lp_reset),
     [TD_SHIFT_RP] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, rp_finished, rp_reset),

@@ -1,7 +1,7 @@
 #include QMK_KEYBOARD_H
 #include "digimatic.h"
 #include <stdio.h>
-#include "lily58.h"
+//#include "lily58.h"
 #include <keymap_swedish.h>
 
 #ifdef PROTOCOL_LUFA
