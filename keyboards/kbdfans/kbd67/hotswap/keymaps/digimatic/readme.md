@@ -1,6 +1,7 @@
 # The digimatic keymap for kbd67 hotswap
 
-Press FN+R to enter flash mode.
+Press FN+Y (qwerty, currently mapped key) (original is FN+R) to enter flash mode.
+
 
 Build hex:
 ```sh
