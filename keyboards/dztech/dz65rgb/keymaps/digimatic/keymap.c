@@ -38,8 +38,8 @@ SHIFT_LP,  KC_QUOT, KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W, 
 [_FL] = LAYOUT_65_ansi(
   KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,    KC_F11,  KC_F12,  C(KC_PSCR),  C(KC_PAUS), \
   TG(_FK), KC_BTN1, KC_BTN2, KC_BTN3, RESET,   _______, _______, _______, TG(_MAC),RGB_TOG, RGB_MOD, RGB_VAI, RGB_VAD,BL_TOGG,_______, \
-  KC_CAPS, DF(_US), DF(_SV), _______, EEP_RST, _______, _______, _______, KC_MPLY, KC_MSTP, KC_MPRV,  KC_MNXT,         _______,         KC_HOME, \
-SHIFT_LP2, DF(_DV), DF(_SVD),_______, _______, KC_PSCR, KC_SLCK, KC_PAUS, KC_VOLD, KC_VOLU, KC_MUTE,SHIFT_RP2,                  TOP,     KC_END,  \
+  KC_CAPS, DF(_US), DF(_SV), _______, EE_CLR,  _______, _______, _______, KC_MPLY, KC_MSTP, KC_MPRV,  KC_MNXT,         _______,         KC_HOME, \
+SHIFT_LP2, DF(_DV), DF(_SVD),_______, _______, KC_PSCR, KC_SCRL, KC_PAUS, KC_VOLD, KC_VOLU, KC_MUTE,SHIFT_RP2,                  TOP,     KC_END,  \
   _______, _______, _______,                   _______,                       KC_LGUI, _______, _______,                KC_HOME, BOTTOM, KC_END),
 
 [_FK] = LAYOUT_65_ansi(
@@ -72,12 +72,13 @@ SHIFT_LP2, DF(_DV), DF(_SVD),_______, _______, KC_PSCR, KC_SLCK, KC_PAUS, KC_VOL
 		    KC_TRNS,       KC_TRNS,  KC_TRNS,                  KC_TRNS,                   KC_TRNS, KC_TRNS, KC_TRNS,  KC_MPRV,          KC_VOLD,  KC_MNXT),*/
 
 
-void rgb_matrix_indicators_user(void)
+bool rgb_matrix_indicators_user(void)
 {
 	    if (IS_LED_ON(host_keyboard_leds(), USB_LED_CAPS_LOCK))
 	    {
 	      rgb_matrix_set_color(8, 0xFF, 0xFF, 0xFF);
 	    }
+        return false;
 }
 
 void matrix_init_user(void)
