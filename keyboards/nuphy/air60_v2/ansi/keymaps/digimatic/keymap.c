@@ -65,7 +65,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // layer 5 win raise
 [5] = LAYOUT(
 	_______, 	RALT_1,  	RALT_2,  	RALT_3, 	RALT_4,  	RALT_5,  	RALT_6,  	RALT_7,  	RALT_8,  	RALT_9, 	RALT_0, 	SE_ACUT, 	_______, 	KC_DEL,
-	_______, 	KC_1, 	 	KC_2, 		KC_3, 		KC_4,		KC_5,  		KC_6,		KC_7,		KC_8,		KC_9,		KC_0, 		SE_DIAE, 	_______, 	_______,
+	_______, 	KC_1, 	 	KC_2, 		KC_3, 		KC_4,		KC_5,  		KC_6,		KC_7,		KC_8,		KC_9,		KC_0, 		SE_DIAE, 	PW_TILD, 	PW_PIPE,
     _______, 	PW_BSLS,   	PW_LT,   	PW_LSQ,  	PW_LBRA,   	PW_LPAR,   	PW_RPAR,   	PW_RBRA,   	PW_RSQ,   	PW_GT,  	PW_PIPE,   	SE_QUOT,	            _______,
 	MO(4),    	_______,   	_______,   	_______,  	_______,   	_______,   	_______,   	_______,   	_______,	_______,  	PW_TILD,	MO(4),  	KC_PGUP,    _______,
 	_______,	_______,	_______,										_______, 							_______,	_______,   	_______,	KC_PGDN,    _______),
