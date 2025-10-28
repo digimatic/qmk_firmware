@@ -8,9 +8,17 @@ Build hex:
 make kbdfans/kbd67/hotswap:digimatic
 ```
 
+or:
+```sh
+qmk compile -kb kbdfans/kbd67/hotswap -km digimatic
+```
+
 Build and flash:
 ```sh
 make kbdfans/kbd67/hotswap:digimatic:dfu
 ```
 
-
+or:
+```sh
+qmk flash -kb kbdfans/kbd67/hotswap -km digimatic
+```

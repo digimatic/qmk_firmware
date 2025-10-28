@@ -59,7 +59,7 @@ SHIFT_LP,  KC_QUOT, KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W, 
 
 [_FL] = LAYOUT(
   KC_GRV , KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F5  , KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 , KC_F11 , KC_F12 ,C(KC_PAUSE),_______, C(KC_INS),\
-  TG(_FK), KC_BTN1, KC_BTN2, KC_BTN3, C(KC_R), _______, QK_BOOT, _______, TG(_MAC),KC_PAUSE,KC_PSCR, _______, _______, PW_PIPE           , _______,  \
+  TG(_FK), KC_BTN1, KC_BTN2, KC_BTN3, C(KC_R), KC_PAUSE,QK_BOOT, _______, TG(_MAC),KC_PAUSE,KC_PSCR, _______, _______, PW_PIPE           , _______,  \
   KC_CAPS, PW_BSLS, PW_LT  , PW_LSQ , PW_LBRA, PW_LPAR, PW_RPAR, PW_RBRA, PW_RSQ , PW_GT  , PW_PIPE, SE_LABK,        C(KC_F5)            , KC_HOME,  \
 SHIFT_LP2, DF(_SV),DF(_SVD), DF(_US), _______, KC_PSCR, KC_SCRL, KC_PAUS, KC_VOLD, KC_VOLU, KC_MUTE,SHIFT_RP2,                  TOP      , KC_END ,  \
   _______, _______, _______,                   _______,                       KC_LGUI, _______,                        KC_HOME, BOTTOM   , KC_END ),
